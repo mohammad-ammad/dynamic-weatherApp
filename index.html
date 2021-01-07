@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WeatherApp</title>
+    <!-- style sheet  -->
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- fontawesome cdn  -->
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        background-color: #03032c;
+      }
+      .box {
+        background-color: black;
+        border-radius: 20px;
+        margin-top: 5%;
+        width: 20%;
+        height: 75vh;
+      }
+      .box #temp_icon {
+        height: 30vh;
+        display: flex;
+        justify-content: center;
+      }
+      .box #temp_icon .fas {
+        margin-top: 20%;
+        font-size: 8rem;
+        animation: sun 3s linear infinite alternate;
+      }
+      @keyframes sun {
+        from {
+          transform: scale(0.8);
+        }
+        to {
+          transform: scale(1.2);
+        }
+      }
+      .container {
+        position: absolute;
+        width: 20%;
+        height: 45vh;
+        z-index: 4;
+        border: 2px solid yellow;
+        clip-path: polygon(0% 30%, 100% 0%, 100% 100%, 0% 100%);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        background-color: yellow;
+      }
+      .location {
+        margin-top: 35%;
+        text-align: center;
+        font-family: cursive;
+        font-size: 2rem;
+      }
+      .fa-street-view {
+        animation: icons 3s linear infinite alternate;
+      }
+      @keyframes icons {
+        from {
+          transform: translateX(-0.5rem);
+        }
+        to {
+          transform: translateX(0.5rem);
+        }
+      }
+      #dates {
+        text-align: center;
+        margin: 8px;
+        font-family: sans-serif;
+        font-weight: 300;
+      }
+      .temp {
+        text-align: center;
+        font-family: cursive;
+        font-size: 2rem;
+      }
+      .temp-min-max {
+        text-align: center;
+        margin: 8px;
+        font-family: sans-serif;
+        font-weight: 300;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div id="temp_icon">
+        <i class="fas fa-sun" style="color: yellow"></i>
+      </div>
+      <div class="container">
+        <h2 class="location">
+          <i class="fas fa-street-view"></i> {%location%},{%country%}
+        </h2>
+        <p id="dates">WED | JAN 06 | 6:49 PM</p>
+        <h1 class="temp">{%tempval%} &#8451;</h1>
+        <h3 class="temp-min-max">
+          Min {%tempmin%} &#8451; | Max {%tempmax%} &#8451;
+        </h3>
+      </div>
+    </div>
+    <!-- <script src="index.js"></script> -->
+    <script>
+      // console.log('weather app');
+
+      let date = document.getElementById("dates");
+
+      let temp_icon = document.getElementById("temp_icon");
+
+      let tempStatus = "{%tempstatus%}";
+
+      if (tempStatus == "Sunny") {
+        temp_icon.innerHTML =
+          "<i class='fas fa-sun' style='color: yellow;'></i>";
+      } else if (tempStatus == "Clouds") {
+        temp_icon.innerHTML =
+          "<i class='fas fa-cloud' style='color: #f1f2f6;'></i>";
+      } else if (tempStatus == "Rainy") {
+        temp_icon.innerHTML =
+          "<i class='fas fa-rain' style='color: #a4b0be;'></i>";
+      } else {
+        temp_icon.innerHTML =
+          "<i class='fas fa-cloud' style='color: #f1f2f6;'></i>";
+      }
+
+      let curDate = () => {
+        let cur = new Date();
+
+        let arrDay = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+        let month = [
+          "Jan",
+          "Feb",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "Aug",
+          "Sept",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        let dates = cur.getDate();
+
+        if (dates < 10) {
+          dates = "0" + dates;
+        }
+
+        let hour = cur.getHours();
+
+        let curTime = "AM";
+
+        if (hour > 11) {
+          curTime = "PM";
+          if (hour > 12) {
+            hour -= 12;
+          }
+        }
+
+        let minute = cur.getMinutes();
+
+        return `${arrDay[cur.getDay()]} | ${
+          month[cur.getMonth()]
+        } ${dates} | ${hour}:${minute} ${curTime} `;
+      };
+
+      // methods calls
+      let data = curDate();
+      date.innerHTML = curDate();
+    </script>
+  </body>
+</html>
